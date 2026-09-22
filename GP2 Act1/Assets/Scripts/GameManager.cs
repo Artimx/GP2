@@ -1,12 +1,13 @@
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager
-    Instance
-    { get; private set; }
+    public static GameManager Instance { get; private set; }
 
     public int score = 0;
+
+    public TextMeshProUGUI scoreText;
 
     private void Awake()
     {
@@ -17,24 +18,34 @@ public class GameManager : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
+    }
+
+    private void Start()
+    {
+        UpdateScoreUI();
     }
 
     public void AddScore(int value)
     {
-    score += value;
+        score += value;
+        UpdateScoreUI();
+
         Debug.Log("Score: " + score);
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void DeductScore(int value)
     {
-        
+        score -= value;
+        UpdateScoreUI();
+
+        Debug.Log("Score: " + score);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void UpdateScoreUI()
     {
-        
+        if (scoreText != null)
+        {
+            scoreText.text = "SCORE: " + score;
+        }
     }
 }
